@@ -6,12 +6,43 @@ package br.com.projeto.view;
 
 import br.com.projeto.dao.ClientesDAO;
 import br.com.projeto.model.Clientes;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Lucas
  */
 public class Frmcliente extends javax.swing.JFrame {
+    
+    //Método listar na tabela
+    public void listar() {
+        
+        ClientesDAO dao = new ClientesDAO();
+        List<Clientes> lista = dao.listarClientes();
+        DefaultTableModel dados = (DefaultTableModel)tabelaClientes.getModel();
+        dados.setNumRows(0);
+        
+        for(Clientes c:lista) {
+        dados.addRow(new Object[]{
+          c.getId(),
+          c.getNome(),
+          c.getRg(),
+          c.getCpf(),
+          c.getEmail(),
+          c.getTelefone(),
+          c.getCelular(),
+          c.getCep(),
+          c.getEndereco(),
+          c.getNumero(),
+          c.getComplemento(),
+          c.getBairro(),
+          c.getCidade(),
+          c.getUf()
+        });
+        
+        }
+    }
 
     /**
      * Creates new form Frmcliente
@@ -66,13 +97,18 @@ public class Frmcliente extends javax.swing.JFrame {
         jTextField9 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaClientes = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         btnsalvar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 
@@ -376,8 +412,8 @@ public class Frmcliente extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton1.setText("Pesquisar");
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaClientes.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tabelaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -388,7 +424,7 @@ public class Frmcliente extends javax.swing.JFrame {
                 "Código", "Nome", "RG", "CPF", "E-mail", "Telefone", "Celular", "CEP", "Endereço", "Nº", "Comp", "Bairro", "Cidade", "UF"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabelaClientes);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -537,9 +573,16 @@ public class Frmcliente extends javax.swing.JFrame {
             obj.setCidade(txtcidade.getText());
             obj.setUf(cbuf.getSelectedItem().toString());
             
+            
             ClientesDAO dao = new ClientesDAO();
             dao.cadastrarCliente(obj);
     }//GEN-LAST:event_btnsalvarActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // Carrega a lista
+        listar();
+        
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -604,8 +647,8 @@ public class Frmcliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTable tabelaClientes;
     private javax.swing.JTextField txtbairro;
     private javax.swing.JFormattedTextField txtcel;
     private javax.swing.JFormattedTextField txtcep;
