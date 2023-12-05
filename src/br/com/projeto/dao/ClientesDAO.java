@@ -92,14 +92,11 @@ public class ClientesDAO {
             stmt.execute();
             stmt.close();
             
-            JOptionPane.showMessageDialog(null, "Cadastrado com Sucesso!");
+            JOptionPane.showMessageDialog(null, "Alterado com Sucesso!");
             
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro: " + erro);
         }   
-    }
-    
-        
     }
     
     // Método excluirCliente
