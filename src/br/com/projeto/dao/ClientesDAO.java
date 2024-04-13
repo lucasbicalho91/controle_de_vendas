@@ -37,7 +37,8 @@ public class ClientesDAO {
                          + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             try ( //segundo passo: conectar o Banco de Dados e organizar o comando SQL
-                    PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+                
                 stmt.setString(1, obj.getNome());
                 stmt.setString(2, obj.getRg());
                 stmt.setString(3, obj.getCpf());
@@ -73,7 +74,7 @@ public class ClientesDAO {
        
             
                     try ( //segundo passo: conectar o Banco de Dados e organizar o comando SQL
-                            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                        PreparedStatement stmt = conn.prepareStatement(sql)) {
                         stmt.setString(1, obj.getNome());
                         stmt.setString(2, obj.getRg());
                         stmt.setString(3, obj.getCpf());

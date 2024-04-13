@@ -5,7 +5,9 @@
 package br.com.projeto.view;
 
 import br.com.projeto.dao.ClientesDAO;
+import br.com.projeto.dao.FuncionariosDAO;
 import br.com.projeto.model.Clientes;
+import br.com.projeto.model.Funcionarios;
 import br.com.projeto.model.Utilitarios;
 import java.awt.event.KeyEvent;
 import java.util.List;
@@ -357,12 +359,12 @@ public class FrmFuncionarios extends javax.swing.JFrame {
                                 .addGap(13, 13, 13)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtcel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtfixo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(156, 156, 156))
+                                .addComponent(txtfixo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(painel_dadosLayout.createSequentialGroup()
                                 .addComponent(txtcep, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -372,8 +374,8 @@ public class FrmFuncionarios extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtnumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(txtnumero, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(painel_dadosLayout.createSequentialGroup()
                         .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(painel_dadosLayout.createSequentialGroup()
@@ -482,9 +484,8 @@ public class FrmFuncionarios extends javax.swing.JFrame {
                 .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(txtsenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(painel_dadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel18)
-                        .addComponent(cbnivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel18)
+                    .addComponent(cbnivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -677,12 +678,15 @@ public class FrmFuncionarios extends javax.swing.JFrame {
     private void btnsalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalvarActionPerformed
         // botão salvar
 
-            Clientes obj = new Clientes();
+            Funcionarios obj = new Funcionarios();
             
             obj.setNome(txtnome.getText());
             obj.setRg(txtrg.getText());
             obj.setCpf(txtcpf.getText());
             obj.setEmail(txtemail.getText());
+            obj.setSenha(txtsenha.getText());
+            obj.setCargo(txtcargo.getText());
+            obj.setNivel_acesso(cbnivel.getSelectedItem().toString());
             obj.setTelefone(txtfixo.getText());
             obj.setCelular(txtcel.getText());
             obj.setCep(txtcep.getText());
@@ -694,8 +698,8 @@ public class FrmFuncionarios extends javax.swing.JFrame {
             obj.setUf(cbuf.getSelectedItem().toString());
             
             
-            ClientesDAO dao = new ClientesDAO();
-            dao.cadastrarCliente(obj);
+            FuncionariosDAO dao = new FuncionariosDAO();
+            dao.cadastrarFuncionarios(obj);
             
             new Utilitarios().LimpaTela(painel_dados);
     }//GEN-LAST:event_btnsalvarActionPerformed
