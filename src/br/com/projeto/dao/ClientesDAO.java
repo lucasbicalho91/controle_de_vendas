@@ -92,6 +92,7 @@ public class ClientesDAO {
                         
                         //terceiro passo: Executar o comando SQL
                         stmt.execute();
+                        stmt.close();
                     }
             
             JOptionPane.showMessageDialog(null, "Alterado com Sucesso!");
