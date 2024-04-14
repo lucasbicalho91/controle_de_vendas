@@ -253,7 +253,6 @@ public class ClientesDAO {
        
         WebServiceCep webServiceCep = WebServiceCep.searchCep(cep);
        
-
         Clientes obj = new Clientes();
 
         if (webServiceCep.wasSuccessful()) {

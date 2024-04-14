@@ -505,6 +505,11 @@ public class FrmFuncionarios extends javax.swing.JFrame {
                 txtpesquisaActionPerformed(evt);
             }
         });
+        txtpesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtpesquisaKeyPressed(evt);
+            }
+        });
 
         btnpesquisar.setBackground(new java.awt.Color(240, 240, 240));
         btnpesquisar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -785,19 +790,22 @@ public class FrmFuncionarios extends javax.swing.JFrame {
     private void btnpesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpesquisarActionPerformed
         String nome = "%"+txtpesquisa.getText()+"%";
         
-         ClientesDAO dao = new ClientesDAO();
-        List<Clientes> lista = dao.buscaClientesPorNome(nome);
+        FuncionariosDAO dao = new FuncionariosDAO();
+        List<Funcionarios> lista = dao.listaFuncionarioPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel)tabelaFuncionarios.getModel();
         dados.setNumRows(0);
         
-        for(Clientes c:lista) {
+        for(Funcionarios c:lista) {
         dados.addRow(new Object[]{
           c.getId(),
           c.getNome(),
           c.getRg(),
           c.getCpf(),
           c.getEmail(),
+          c.getSenha(),
+          c.getCargo(),
+          c.getNivel_acesso(),
           c.getTelefone(),
           c.getCelular(),
           c.getCep(),
@@ -818,11 +826,11 @@ public class FrmFuncionarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnnovoActionPerformed
 
     private void btnbuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaActionPerformed
-        // Botão buscar cliente por nome
+        // Botão buscar funcionário por nome
 
         String nome = txtnome.getText();
-        Clientes obj = new Clientes();
-        ClientesDAO dao = new ClientesDAO();
+        Funcionarios obj = new Funcionarios();
+        FuncionariosDAO dao = new FuncionariosDAO();
         
         obj = dao.consultaPorNome(nome);
         
@@ -836,6 +844,9 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         txtcpf.setText(obj.getCpf());
         
         txtemail.setText(obj.getEmail());
+        txtsenha.setText(obj.getSenha());
+        txtcargo.setText(obj.getCargo());
+        cbnivel.setSelectedItem(obj.getNivel_acesso());
         txtfixo.setText(obj.getTelefone());
         txtcel.setText(obj.getCelular());
         
@@ -848,7 +859,7 @@ public class FrmFuncionarios extends javax.swing.JFrame {
         cbuf.setSelectedItem(obj.getUf());
         }
         else {
-            JOptionPane.showMessageDialog(null, "Cliente não encontrado");
+            JOptionPane.showMessageDialog(null, "Funcionário não encontrado");
         }
         
     }//GEN-LAST:event_btnbuscaActionPerformed
@@ -888,6 +899,39 @@ public class FrmFuncionarios extends javax.swing.JFrame {
     private void cbnivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbnivelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbnivelActionPerformed
+
+    private void txtpesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpesquisaKeyPressed
+        String nome = "%"+txtpesquisa.getText()+"%";
+        
+        FuncionariosDAO dao = new FuncionariosDAO();
+        List<Funcionarios> lista = dao.listaFuncionarioPorNome(nome);
+        
+        DefaultTableModel dados = (DefaultTableModel)tabelaFuncionarios.getModel();
+        dados.setNumRows(0);
+        
+        for(Funcionarios c:lista) {
+        dados.addRow(new Object[]{
+          c.getId(),
+          c.getNome(),
+          c.getRg(),
+          c.getCpf(),
+          c.getEmail(),
+          c.getSenha(),
+          c.getCargo(),
+          c.getNivel_acesso(),
+          c.getTelefone(),
+          c.getCelular(),
+          c.getCep(),
+          c.getEndereco(),
+          c.getNumero(),
+          c.getComplemento(),
+          c.getBairro(),
+          c.getCidade(),
+          c.getUf()
+        });
+        
+        }
+    }//GEN-LAST:event_txtpesquisaKeyPressed
 
     /**
      * @param args the command line arguments
