@@ -71,7 +71,7 @@ public class FrmMenu extends javax.swing.JFrame {
 
         lblusuario.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblusuario.setForeground(new java.awt.Color(0, 0, 255));
-        lblusuario.setText("Lucas Noce");
+        lblusuario.setText("Usuário");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         jLabel2.setText("Usuário Logado: ");
@@ -83,9 +83,9 @@ public class FrmMenu extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel2)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblusuario)
-                .addContainerGap(749, Short.MAX_VALUE))
+                .addContainerGap(789, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
