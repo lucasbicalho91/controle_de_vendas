@@ -6,8 +6,10 @@ package br.com.projeto.view;
 
 import br.com.projeto.dao.ClientesDAO;
 import br.com.projeto.dao.FornecedoresDAO;
+import br.com.projeto.dao.ProdutosDAO;
 import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Fornecedores;
+import br.com.projeto.model.Produtos;
 import br.com.projeto.model.Utilitarios;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -419,25 +421,18 @@ public class FrmProdutos extends javax.swing.JFrame {
     private void btnsalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalvarActionPerformed
         // botão salvar
 
-            Clientes obj = new Clientes();
+            Produtos obj = new Produtos();
+            obj.setDescricao(txtdescricao.getText());
+            obj.setPreco(Double.parseDouble(txtpreco.getText()));
+            obj.setQtd_estoque(Integer.parseInt(txtqtd_estoque.getText()));
             
-            obj.setNome(txtdescricao.getText());
-            obj.setRg(txtrg.getText());
-            obj.setCpf(txtcpf.getText());
-            obj.setEmail(txtpreco.getText());
-            obj.setTelefone(txtfixo.getText());
-            obj.setCelular(txtcel.getText());
-            obj.setCep(txtcep.getText());
-            obj.setEndereco(txtend.getText());
-            obj.setNumero(Integer.parseInt(txtnumero.getText()));
-            obj.setComplemento(txtcomplemento.getText());
-            obj.setBairro(txtbairro.getText());
-            obj.setCidade(txtcidade.getText());
-            obj.setUf(jComboBox1.getSelectedItem().toString());
+            // Criar um objeto de Fornecedor
+            Fornecedores f = new Fornecedores();
+            f = (Fornecedores) cbfornecedor.getSelectedItem();
+            obj.setFornecedor(f);
             
-            
-            ClientesDAO dao = new ClientesDAO();
-            dao.cadastrarCliente(obj);
+            ProdutosDAO dao = new ProdutosDAO();
+            dao.cadastrarProduto(obj);
             
             new Utilitarios().LimpaTela(painel_dados);
     }//GEN-LAST:event_btnsalvarActionPerformed
