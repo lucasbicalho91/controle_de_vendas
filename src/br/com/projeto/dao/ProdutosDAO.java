@@ -5,10 +5,14 @@
 package br.com.projeto.dao;
 
 import br.com.projeto.jdbc.ConnectionFactory;
+import br.com.projeto.model.Fornecedores;
 import br.com.projeto.model.Produtos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -50,5 +54,44 @@ public class ProdutosDAO {
             JOptionPane.showMessageDialog(null, "Erro: " + erro);
         }   
     }
+    
+        public List<Produtos> listarProdutos() {
+        try {
+            
+            // primeiro passo: Criar a lista
+            List<Produtos> lista = new ArrayList<>();
+            
+            // segundo passo: Criar o comando SQL, organizar e executar o comando
+            String sql = "select p.id, p.descricao, p.preco, p.qtd_estoque, f.nome from "
+                    + "tb_produtos as p inner join tb_fornecedores as f on (p.for_id = f.id)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()) {
+                Produtos obj = new Produtos();
+                Fornecedores f = new Fornecedores();
+                
+                obj.setId(rs.getInt("p.id"));
+                obj.setDescricao(rs.getString("p.descricao"));
+                obj.setPreco(rs.getDouble("p.preco"));
+                obj.setQtd_estoque(rs.getInt("p.qtd_estoque"));
+                
+                f.setNome(rs.getString("f.nome"));
+                
+                obj.setFornecedor(f);
+                
+                lista.add(obj);
+                
+            }
+            
+            return lista;
+            
+        } catch (SQLException erro) {
+            
+            JOptionPane.showMessageDialog(null, "Erro:" + erro);
+            return null;
+        }
+    } 
+    
     
 }
