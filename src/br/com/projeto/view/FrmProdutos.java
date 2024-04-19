@@ -440,19 +440,16 @@ public class FrmProdutos extends javax.swing.JFrame {
         
         txtcodigo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0).toString());
         txtdescricao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
-        txtrg.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 2).toString());
-        txtcpf.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString());
-        txtpreco.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),4).toString());
-        txtfixo.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),5).toString());
-        txtcel.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),6).toString());
-        txtcep.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),7).toString());
-        txtend.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),8).toString());
-        txtnumero.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),9).toString());
-        txtcomplemento.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),10).toString());
-        txtbairro.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),11).toString());
-        txtcidade.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),12).toString());
-        jComboBox1.setSelectedItem(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),13).toString());
-
+        txtpreco.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),2).toString());
+        txtqtd_estoque.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString());
+        
+        Fornecedores f = new Fornecedores();
+        FornecedoresDAO dao = new FornecedoresDAO();
+        f = dao.consultaFornecedoresPorNome(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),4).toString());
+        
+        cbfornecedor.removeAllItems();
+        cbfornecedor.setSelectedItem(f);
+        
         
     }//GEN-LAST:event_tabelaProdutosMouseClicked
 
@@ -460,38 +457,33 @@ public class FrmProdutos extends javax.swing.JFrame {
         
             // botão editar
 
-            Clientes obj = new Clientes();
-            
-            obj.setNome(txtdescricao.getText());
-            obj.setRg(txtrg.getText());
-            obj.setCpf(txtcpf.getText());
-            obj.setEmail(txtpreco.getText());
-            obj.setTelefone(txtfixo.getText());
-            obj.setCelular(txtcel.getText());
-            obj.setCep(txtcep.getText());
-            obj.setEndereco(txtend.getText());
-            obj.setNumero(Integer.parseInt(txtnumero.getText()));
-            obj.setComplemento(txtcomplemento.getText());
-            obj.setBairro(txtbairro.getText());
-            obj.setCidade(txtcidade.getText());
-            obj.setUf(jComboBox1.getSelectedItem().toString());
+            Produtos obj = new Produtos();
             
             obj.setId(Integer.parseInt(txtcodigo.getText()));
+            obj.setDescricao(txtdescricao.getText());
+            obj.setPreco(Double.parseDouble(txtpreco.getText()));
+            obj.setQtd_estoque(Integer.parseInt(txtqtd_estoque.getText()));
             
-            ClientesDAO dao = new ClientesDAO();
-            dao.alterarCliente(obj);
+            //Criar um objeto de Fornecedor
+            Fornecedores f = new Fornecedores();
+            f = (Fornecedores)cbfornecedor.getSelectedItem();
+            
+            obj.setFornecedor(f);
+            
+            ProdutosDAO dao = new ProdutosDAO();
+            dao.alterarProduto(obj);
             
             new Utilitarios().LimpaTela(painel_dados);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnexcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexcluirActionPerformed
         
-            Clientes obj = new Clientes();
+            Produtos obj = new Produtos();
             
             obj.setId(Integer.parseInt(txtcodigo.getText()));
             
-            ClientesDAO dao = new ClientesDAO();
-            dao.excluirCliente(obj);
+            ProdutosDAO dao = new ProdutosDAO();
+            dao.excluirProduto(obj);
             
             new Utilitarios().LimpaTela(painel_dados);
         
@@ -535,7 +527,7 @@ public class FrmProdutos extends javax.swing.JFrame {
     private void txtpesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpesquisaKeyPressed
         String nome = "%"+txtpesquisa.getText()+"%";
         
-         ClientesDAO dao = new ClientesDAO();
+        ClientesDAO dao = new ClientesDAO();
         List<Clientes> lista = dao.buscaClientesPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel)tabelaProdutos.getModel();

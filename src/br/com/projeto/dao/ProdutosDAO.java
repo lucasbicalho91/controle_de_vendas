@@ -55,6 +55,60 @@ public class ProdutosDAO {
         }   
     }
     
+        public void alterarProduto(Produtos obj) {
+                try {
+            
+            //primeiro passo: criar o comando SQL
+            String sql = "update tb_produtos set descricao=?, preco=?, qtd_estoque=?, for_id=? where id=?";
+       
+            
+                    try ( //segundo passo: conectar o Banco de Dados e organizar o comando SQL
+                        PreparedStatement stmt = conn.prepareStatement(sql)) {
+                        stmt.setString(1, obj.getDescricao());
+                        stmt.setDouble(2, obj.getPreco());
+                        stmt.setInt(3, obj.getQtd_estoque());
+                        
+                        stmt.setInt(4, obj.getFornecedor().getId());
+                        
+                        stmt.setInt(5, obj.getId());
+                        
+                        //terceiro passo: Executar o comando SQL
+                        stmt.execute();
+                        stmt.close();
+                    }
+            
+            JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!");
+            
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro: " + erro);
+        }   
+    }
+    
+    // Método excluirCliente
+    public void excluirProduto(Produtos obj) {
+        
+         try {
+            
+            //primeiro passo: criar o comando SQL
+            String sql = "delete from tb_produtos where id = ?";
+            
+             try ( //segundo passo: conectar o Banco de Dados e organizar o comando SQL
+                     PreparedStatement stmt = conn.prepareStatement(sql)) {
+                 stmt.setInt(1, obj.getId());
+                 
+                 
+                 //terceiro passo: Executar o comando SQL
+                 stmt.execute();
+                 stmt.close();
+             }
+            
+            JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!");
+            
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro: " + erro);
+        }   
+    }
+    
         public List<Produtos> listarProdutos() {
         try {
             
