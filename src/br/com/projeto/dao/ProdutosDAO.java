@@ -109,6 +109,7 @@ public class ProdutosDAO {
         }   
     }
     
+        
         public List<Produtos> listarProdutos() {
         try {
             
@@ -145,7 +146,81 @@ public class ProdutosDAO {
             JOptionPane.showMessageDialog(null, "Erro:" + erro);
             return null;
         }
+    }
+    
+        public Produtos consultarProdutosPorNome(String nome) {
+        try {
+            
+            String sql = "select p.id, p.descricao, p.preco, p.qtd_estoque, f.nome from "
+                    + "tb_produtos as p inner join tb_fornecedores as f on (p.for_id = f.id) "
+                    + "where p.descricao = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nome);
+            ResultSet rs = stmt.executeQuery();
+            
+            Produtos obj = new Produtos();
+            Fornecedores f = new Fornecedores();
+            
+            if(rs.next()) {
+                
+                obj.setId(rs.getInt("p.id"));
+                obj.setDescricao(rs.getString("p.descricao"));
+                obj.setPreco(rs.getDouble("p.preco"));
+                obj.setQtd_estoque(rs.getInt("p.qtd_estoque"));
+                
+                f.setNome(rs.getString("f.nome"));
+                
+                obj.setFornecedor(f);
+
+            }
+            
+            return obj;
+           
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Cliente não encontrado");
+            return null;
+        }
+    }
+        
+        public List<Produtos> listarProdutosPorNome(String nome) {
+        try {
+            
+            // primeiro passo: Criar a lista
+            List<Produtos> lista = new ArrayList<>();
+            
+            // segundo passo: Criar o comando SQL, organizar e executar o comando
+            String sql = "select p.id, p.descricao, p.preco, p.qtd_estoque, f.nome from "
+                    + "tb_produtos as p inner join tb_fornecedores as f on (p.for_id = f.id)"
+                    + " where p.descricao like ?";
+            
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nome);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()) {
+                Produtos obj = new Produtos();
+                Fornecedores f = new Fornecedores();
+                
+                obj.setId(rs.getInt("p.id"));
+                obj.setDescricao(rs.getString("p.descricao"));
+                obj.setPreco(rs.getDouble("p.preco"));
+                obj.setQtd_estoque(rs.getInt("p.qtd_estoque"));
+                
+                f.setNome(rs.getString("f.nome"));
+                obj.setFornecedor(f);
+                
+                lista.add(obj);
+                
+            }
+            
+            return lista;
+            
+        } catch (SQLException erro) {
+            
+            JOptionPane.showMessageDialog(null, "Erro:" + erro);
+            return null;
+        }
     } 
-    
-    
+        
+        
 }

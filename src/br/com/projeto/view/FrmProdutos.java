@@ -161,6 +161,11 @@ public class FrmProdutos extends javax.swing.JFrame {
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
+        cbfornecedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbfornecedorMouseClicked(evt);
+            }
+        });
         cbfornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbfornecedorActionPerformed(evt);
@@ -448,7 +453,7 @@ public class FrmProdutos extends javax.swing.JFrame {
         f = dao.consultaFornecedoresPorNome(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(),4).toString());
         
         cbfornecedor.removeAllItems();
-        cbfornecedor.setSelectedItem(f);
+        cbfornecedor.getModel().setSelectedItem(f);
         
         
     }//GEN-LAST:event_tabelaProdutosMouseClicked
@@ -492,28 +497,19 @@ public class FrmProdutos extends javax.swing.JFrame {
     private void btnpesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpesquisarActionPerformed
         String nome = "%"+txtpesquisa.getText()+"%";
         
-         ClientesDAO dao = new ClientesDAO();
-        List<Clientes> lista = dao.buscaClientesPorNome(nome);
+        ProdutosDAO dao = new ProdutosDAO();
+        List<Produtos> lista = dao.listarProdutosPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel)tabelaProdutos.getModel();
         dados.setNumRows(0);
         
-        for(Clientes c:lista) {
+        for(Produtos c:lista) {
         dados.addRow(new Object[]{
           c.getId(),
-          c.getNome(),
-          c.getRg(),
-          c.getCpf(),
-          c.getEmail(),
-          c.getTelefone(),
-          c.getCelular(),
-          c.getCep(),
-          c.getEndereco(),
-          c.getNumero(),
-          c.getComplemento(),
-          c.getBairro(),
-          c.getCidade(),
-          c.getUf()
+          c.getDescricao(),
+          c.getPreco(),
+          c.getQtd_estoque(),
+          c.getFornecedor().getNome()
         });
         
         }
@@ -527,65 +523,52 @@ public class FrmProdutos extends javax.swing.JFrame {
     private void txtpesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpesquisaKeyPressed
         String nome = "%"+txtpesquisa.getText()+"%";
         
-        ClientesDAO dao = new ClientesDAO();
-        List<Clientes> lista = dao.buscaClientesPorNome(nome);
+ProdutosDAO dao = new ProdutosDAO();
+        List<Produtos> lista = dao.listarProdutosPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel)tabelaProdutos.getModel();
         dados.setNumRows(0);
         
-        for(Clientes c:lista) {
+        for(Produtos c:lista) {
         dados.addRow(new Object[]{
           c.getId(),
-          c.getNome(),
-          c.getRg(),
-          c.getCpf(),
-          c.getEmail(),
-          c.getTelefone(),
-          c.getCelular(),
-          c.getCep(),
-          c.getEndereco(),
-          c.getNumero(),
-          c.getComplemento(),
-          c.getBairro(),
-          c.getCidade(),
-          c.getUf()
+          c.getDescricao(),
+          c.getPreco(),
+          c.getQtd_estoque(),
+          c.getFornecedor().getNome()
         });
         
         }
     }//GEN-LAST:event_txtpesquisaKeyPressed
 
     private void btnbuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscaActionPerformed
-        // Botão buscar cliente por nome
+        // Botão buscar produto por nome
 
         String nome = txtdescricao.getText();
-        Clientes obj = new Clientes();
-        ClientesDAO dao = new ClientesDAO();
+        Produtos obj = new Produtos();
+        ProdutosDAO dao = new ProdutosDAO();
 
-        obj = dao.consultaPorNome(nome);
+        obj = dao.consultarProdutosPorNome(nome);
+        cbfornecedor.removeAllItems();
 
-        if(obj.getNome() != null) {
+        if(obj.getDescricao() != null) {
 
             //exibir os dados do obj nos campos de texto
 
             txtcodigo.setText(String.valueOf(obj.getId()));
-            txtdescricao.setText(obj.getNome());
-            txtrg.setText(obj.getRg());
-            txtcpf.setText(obj.getCpf());
+            txtdescricao.setText(obj.getDescricao());
+            txtpreco.setText(String.valueOf(obj.getPreco()));
+            txtqtd_estoque.setText(String.valueOf(obj.getQtd_estoque()));
+            
+            Fornecedores f = new Fornecedores();
+            FornecedoresDAO fdao = new FornecedoresDAO();
+            
+            f = fdao.consultaFornecedoresPorNome(obj.getFornecedor().getNome());
+            cbfornecedor.getModel().setSelectedItem(f);
 
-            txtpreco.setText(obj.getEmail());
-            txtfixo.setText(obj.getTelefone());
-            txtcel.setText(obj.getCelular());
-
-            txtcep.setText(obj.getCep());
-            txtend.setText(obj.getEndereco());
-            txtnumero.setText(String.valueOf(obj.getNumero()));
-            txtcomplemento.setText(obj.getComplemento());
-            txtbairro.setText(obj.getBairro());
-            txtcidade.setText(obj.getCidade());
-            jComboBox1.setSelectedItem(obj.getUf());
         }
         else {
-            JOptionPane.showMessageDialog(null, "Cliente não encontrado");
+            JOptionPane.showMessageDialog(null, "Produto não encontrado");
         }
     }//GEN-LAST:event_btnbuscaActionPerformed
 
@@ -619,6 +602,17 @@ public class FrmProdutos extends javax.swing.JFrame {
             cbfornecedor.addItem(f);
         }
     }//GEN-LAST:event_cbfornecedorAncestorAdded
+
+    private void cbfornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbfornecedorMouseClicked
+       
+        FornecedoresDAO dao = new FornecedoresDAO();
+        List<Fornecedores> listadefornecedores = dao.listarFornecedores();
+        cbfornecedor.removeAllItems();
+        
+        for (Fornecedores f : listadefornecedores) {
+            cbfornecedor.addItem(f);
+        }
+    }//GEN-LAST:event_cbfornecedorMouseClicked
 
     /**
      * @param args the command line arguments
