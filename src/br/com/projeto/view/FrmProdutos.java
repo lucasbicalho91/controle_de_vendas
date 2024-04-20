@@ -4,10 +4,8 @@
  */
 package br.com.projeto.view;
 
-import br.com.projeto.dao.ClientesDAO;
 import br.com.projeto.dao.FornecedoresDAO;
 import br.com.projeto.dao.ProdutosDAO;
-import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Fornecedores;
 import br.com.projeto.model.Produtos;
 import br.com.projeto.model.Utilitarios;
