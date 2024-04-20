@@ -15,6 +15,11 @@ public class FrmPagamentos extends javax.swing.JFrame {
      */
     public FrmPagamentos() {
         initComponents();
+        
+        txtcartao.setText("0");
+        txtdinheiro.setText("0");
+        txtpix.setText("0");
+        txttroco.setText("0");
     }
 
     /**
@@ -30,8 +35,8 @@ public class FrmPagamentos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtdinheiro = new javax.swing.JTextField();
-        txtcartao = new javax.swing.JLabel();
-        txtdinheiro1 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtcartao = new javax.swing.JTextField();
         txtpix = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         txttroco = new javax.swing.JTextField();
@@ -74,13 +79,13 @@ public class FrmPagamentos extends javax.swing.JFrame {
             }
         });
 
-        txtcartao.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        txtcartao.setText("CARTÃO:");
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel11.setText("CARTÃO:");
 
-        txtdinheiro1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        txtdinheiro1.addActionListener(new java.awt.event.ActionListener() {
+        txtcartao.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        txtcartao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtdinheiro1ActionPerformed(evt);
+                txtcartaoActionPerformed(evt);
             }
         });
 
@@ -119,6 +124,11 @@ public class FrmPagamentos extends javax.swing.JFrame {
         btnfinalizar.setBackground(new java.awt.Color(240, 240, 240));
         btnfinalizar.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btnfinalizar.setText("Finalizar venda");
+        btnfinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnfinalizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,12 +146,12 @@ public class FrmPagamentos extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(50, 50, 50)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtcartao)
+                                    .addComponent(jLabel11)
                                     .addComponent(jLabel10))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtdinheiro, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                                    .addComponent(txtdinheiro1))))
+                                    .addComponent(txtcartao))))
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -170,8 +180,8 @@ public class FrmPagamentos extends javax.swing.JFrame {
                     .addComponent(txtdinheiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtcartao)
-                    .addComponent(txtdinheiro1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel11)
+                    .addComponent(txtcartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -197,9 +207,9 @@ public class FrmPagamentos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtdinheiroActionPerformed
 
-    private void txtdinheiro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdinheiro1ActionPerformed
+    private void txtcartaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcartaoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtdinheiro1ActionPerformed
+    }//GEN-LAST:event_txtcartaoActionPerformed
 
     private void txtpixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpixActionPerformed
         // TODO add your handling code here:
@@ -212,6 +222,28 @@ public class FrmPagamentos extends javax.swing.JFrame {
     private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttotalActionPerformed
+
+    private void btnfinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfinalizarActionPerformed
+        
+        double pcartao, ppix, pdinheiro, totalpago, totalvenda, troco;
+        
+        pcartao = Double.parseDouble(txtcartao.getText());
+        ppix = Double.parseDouble(txtpix.getText());
+        pdinheiro = Double.parseDouble(txtdinheiro.getText());
+        
+        totalvenda = Double.parseDouble(txttotal.getText());
+        
+        //Calcular o troco
+        totalpago = pcartao + ppix + pdinheiro;
+        
+        troco = totalpago - totalvenda;
+        
+        txttroco.setText(String.valueOf(troco));
+        
+        
+        
+        
+    }//GEN-LAST:event_btnfinalizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,15 +284,15 @@ public class FrmPagamentos extends javax.swing.JFrame {
     private javax.swing.JButton btnfinalizar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel txtcartao;
+    private javax.swing.JTextField txtcartao;
     private javax.swing.JTextField txtdinheiro;
-    private javax.swing.JTextField txtdinheiro1;
     private javax.swing.JTextField txtpix;
-    private javax.swing.JTextField txttotal;
+    public javax.swing.JTextField txttotal;
     private javax.swing.JTextField txttroco;
     // End of variables declaration//GEN-END:variables
 }

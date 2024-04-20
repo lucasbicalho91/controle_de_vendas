@@ -21,31 +21,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmVendas extends javax.swing.JFrame {
     
-    //Método listar na tabela
-    public void listar() {
-        
-        ProdutosDAO dao = new ProdutosDAO();
-        List<Produtos> lista = dao.listarProdutos();
-        DefaultTableModel dados = (DefaultTableModel)tabelaProdutos.getModel();
-        dados.setNumRows(0);
-        
-        for(Produtos c:lista) {
-        dados.addRow(new Object[]{
-          c.getId(),
-          c.getDescricao(),
-          c.getPreco(),
-          c.getQtd_estoque(),
-          c.getFornecedor().getNome()
-        });
-        
-        }
-    }
+    double total, preco, subtotal;
+    int qtd;
+    
+    DefaultTableModel carrinho;
 
     /**
      * Creates new form Frmcliente
      */
     public FrmVendas() {
         initComponents();
+        txtqtd.setText("0");
     }
 
     /**
@@ -506,7 +492,27 @@ public class FrmVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtqtdActionPerformed
 
     private void btnaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddActionPerformed
-        // TODO add your handling code here:
+        //botão adicionar item
+        qtd = Integer.parseInt(txtqtd.getText());
+        preco = Double.parseDouble(txtpreco.getText());
+        
+        subtotal = qtd*preco;
+        
+        total += subtotal;
+        txttotal.setText(String.valueOf(total));
+        
+        //Adicionar o produto no carrinho
+        
+        carrinho = (DefaultTableModel) tabelaItems.getModel();
+        
+        carrinho.addRow(new Object[]{
+            txtcodigo.getText(),
+            txtdescricao.getText(),
+            txtqtd.getText(),
+            txtpreco.getText(),
+            subtotal
+            });
+            
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void txtbuscaprodutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscaprodutoActionPerformed
@@ -521,44 +527,17 @@ public class FrmVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtbuscaprodutoActionPerformed
 
     private void btnpagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpagamentoActionPerformed
-
-        // botão editar
-
-        Clientes obj = new Clientes();
-
-        obj.setNome(txtnome.getText());
-        obj.setRg(txtrg.getText());
-        obj.setCpf(txtcpf.getText());
-        obj.setEmail(txtemail.getText());
-        obj.setTelefone(txtfixo.getText());
-        obj.setCelular(txtcel.getText());
-        obj.setCep(txtcep.getText());
-        obj.setEndereco(txtend.getText());
-        obj.setNumero(Integer.parseInt(txtnumero.getText()));
-        obj.setComplemento(txtcomplemento.getText());
-        obj.setBairro(txtbairro.getText());
-        obj.setCidade(txtcidade.getText());
-        obj.setUf(cbuf.getSelectedItem().toString());
-
-        obj.setId(Integer.parseInt(txtcodigo.getText()));
-
-        ClientesDAO dao = new ClientesDAO();
-        dao.alterarCliente(obj);
-
-        new Utilitarios().LimpaTela(painel_dados);
+        //botão pagamento
+        FrmPagamentos telap = new FrmPagamentos();
+        telap.txttotal.setText(String.valueOf(total));
+        telap.setVisible(true);
+        this.dispose();
+        
     }//GEN-LAST:event_btnpagamentoActionPerformed
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
-
-        Clientes obj = new Clientes();
-
-        obj.setId(Integer.parseInt(txtcodigo.getText()));
-
-        ClientesDAO dao = new ClientesDAO();
-        dao.excluirCliente(obj);
-
-        new Utilitarios().LimpaTela(painel_dados);
-
+        //botao cancelar pedido
+        
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed
