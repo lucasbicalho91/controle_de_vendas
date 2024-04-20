@@ -4,13 +4,15 @@
  */
 package br.com.projeto.view;
 
-import br.com.projeto.dao.FornecedoresDAO;
+import br.com.projeto.dao.ClientesDAO;
 import br.com.projeto.dao.ProdutosDAO;
-import br.com.projeto.model.Fornecedores;
+import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Produtos;
 import br.com.projeto.model.Utilitarios;
+import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -126,6 +128,11 @@ public class FrmVendas extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         txtcpf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtcpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtcpfKeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Nome:");
@@ -140,6 +147,7 @@ public class FrmVendas extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Data:");
 
+        txtdataatual.setEditable(false);
         txtdataatual.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtdataatual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,6 +227,11 @@ public class FrmVendas extends javax.swing.JFrame {
         txtcodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtcodigoActionPerformed(evt);
+            }
+        });
+        txtcodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtcodigoKeyPressed(evt);
             }
         });
 
@@ -435,7 +448,7 @@ public class FrmVendas extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -446,7 +459,7 @@ public class FrmVendas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnpagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btncancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -454,8 +467,13 @@ public class FrmVendas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        // Carrega a lista
-        listar();
+        
+        // Carrega a data atual do sistema
+        Date agora = new Date();
+        SimpleDateFormat dataBr = new SimpleDateFormat("dd/MM/yyy");
+        String dataFormatada = dataBr.format(agora);
+        txtdataatual.setText(dataFormatada);
+        
         
     }//GEN-LAST:event_formWindowActivated
 
@@ -492,7 +510,14 @@ public class FrmVendas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnaddActionPerformed
 
     private void txtbuscaprodutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscaprodutoActionPerformed
-        // TODO add your handling code here:
+        
+        Produtos obj = new Produtos();
+        ProdutosDAO dao = new ProdutosDAO();
+
+        obj = dao.buscaPorCodigo(Integer.parseInt(txtcodigo.getText()));
+        txtdescricao.setText(obj.getDescricao());
+        txtpreco.setText(String.valueOf(obj.getPreco())); 
+        
     }//GEN-LAST:event_txtbuscaprodutoActionPerformed
 
     private void btnpagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpagamentoActionPerformed
@@ -539,6 +564,35 @@ public class FrmVendas extends javax.swing.JFrame {
     private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txttotalActionPerformed
+
+    private void txtcpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcpfKeyPressed
+        //busca cliente por CPF
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            
+            Clientes objs = new Clientes();
+            ClientesDAO dao = new ClientesDAO();
+            
+            objs = dao.buscaPorCpf(txtcpf.getText());
+            txtnome.setText(objs.getNome());
+            
+        }
+        
+    }//GEN-LAST:event_txtcpfKeyPressed
+
+    private void txtcodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoKeyPressed
+        //Busca produto por código
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            
+            Produtos obj = new Produtos();
+            ProdutosDAO dao = new ProdutosDAO();
+            
+            obj = dao.buscaPorCodigo(Integer.parseInt(txtcodigo.getText()));
+            txtdescricao.setText(obj.getDescricao());
+            txtpreco.setText(String.valueOf(obj.getPreco()));
+            
+        }
+        
+    }//GEN-LAST:event_txtcodigoKeyPressed
 
     /**
      * @param args the command line arguments
