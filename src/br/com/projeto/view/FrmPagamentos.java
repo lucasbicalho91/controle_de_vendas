@@ -61,7 +61,7 @@ public class FrmPagamentos extends javax.swing.JFrame {
         txtobs = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Tela de Pagamentos");
+        setTitle("Tela de Pagamento");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 

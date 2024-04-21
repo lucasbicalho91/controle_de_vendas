@@ -39,7 +39,7 @@ public class FrmLogin extends javax.swing.JFrame {
         btnsair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Seja bem-vindo ao Sistema");
+        setTitle("Seja Bem-Vindo ao Sistema");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 
@@ -146,7 +146,14 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtemailActionPerformed
 
     private void btnsairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsairActionPerformed
-        // TODO add your handling code here:
+        // Logout
+        int op;
+        
+        op = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja sair?");
+        
+        if(op == 0) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_btnsairActionPerformed
 
     private void btnentrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnentrarActionPerformed

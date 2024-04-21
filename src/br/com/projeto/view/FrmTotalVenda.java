@@ -46,7 +46,7 @@ public class FrmTotalVenda extends javax.swing.JFrame {
         txttotal = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Histórico de Vendas");
+        setTitle("Total de Vendas Por Data");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 

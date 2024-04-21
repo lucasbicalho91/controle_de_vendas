@@ -50,7 +50,7 @@ public class FrmDetalheVenda extends javax.swing.JFrame {
         tabelaitensvendidos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Detalhe da venda");
+        setTitle("Detalhe da Venda");
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 204));
 
