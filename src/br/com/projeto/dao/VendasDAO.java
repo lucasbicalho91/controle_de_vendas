@@ -46,7 +46,7 @@ public class VendasDAO {
                 stmt.close();
             }
             
-            JOptionPane.showMessageDialog(null, "Venda Registrada com Sucesso!");
+
             
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro: " + erro);
@@ -58,7 +58,7 @@ public class VendasDAO {
             try {
                 int idVenda = 0;
                 
-                String sql = "select max(id) id from venda;";
+                String sql = "select max(id) id from tb_vendas;";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
                 

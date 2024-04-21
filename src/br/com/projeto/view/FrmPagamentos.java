@@ -4,11 +4,16 @@
  */
 package br.com.projeto.view;
 
+import br.com.projeto.dao.ItemVendaDAO;
 import br.com.projeto.dao.VendasDAO;
 import br.com.projeto.model.Clientes;
+import br.com.projeto.model.ItemVenda;
+import br.com.projeto.model.Produtos;
 import br.com.projeto.model.Vendas;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,7 +22,7 @@ import java.util.Date;
 public class FrmPagamentos extends javax.swing.JFrame {
     
     Clientes cliente = new Clientes();
-
+    DefaultTableModel carrinho;
 
     public FrmPagamentos() {
         initComponents();
@@ -287,6 +292,28 @@ public class FrmPagamentos extends javax.swing.JFrame {
         
         VendasDAO dao_v = new VendasDAO();
         dao_v.cadastrarVenda(objV);
+        
+        //Retorna o id da última venda realizada
+        objV.setId(dao_v.retornaUltimaVenda());
+        
+        //Cadastrando os produtos na tabela ItensVendas
+        for(int i = 0; i < carrinho.getRowCount(); i++) {
+            
+            Produtos objP = new Produtos();
+            ItemVenda item = new ItemVenda();
+            item.setVenda(objV);
+            
+            objP.setId(Integer.parseInt(carrinho.getValueAt(i, 0).toString()));
+            item.setProduto(objP);
+            item.setQtd(Integer.parseInt(carrinho.getValueAt(i, 2).toString()));
+            item.setSubtotal(Double.parseDouble(carrinho.getValueAt(i, 4).toString()));
+            
+            ItemVendaDAO daoItem = new ItemVendaDAO();
+            daoItem.cadastraItem(item);
+            
+        }
+        
+         JOptionPane.showMessageDialog(null, "Venda Registrada com Sucesso!");
         
     }//GEN-LAST:event_btnfinalizarActionPerformed
 
