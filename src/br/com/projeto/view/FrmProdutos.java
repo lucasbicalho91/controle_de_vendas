@@ -521,7 +521,7 @@ public class FrmProdutos extends javax.swing.JFrame {
     private void txtpesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpesquisaKeyPressed
         String nome = "%"+txtpesquisa.getText()+"%";
         
-ProdutosDAO dao = new ProdutosDAO();
+        ProdutosDAO dao = new ProdutosDAO();
         List<Produtos> lista = dao.listarProdutosPorNome(nome);
         
         DefaultTableModel dados = (DefaultTableModel)tabelaProdutos.getModel();
