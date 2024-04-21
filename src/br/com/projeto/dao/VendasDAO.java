@@ -5,12 +5,16 @@
 package br.com.projeto.dao;
 
 import br.com.projeto.jdbc.ConnectionFactory;
+import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Vendas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -69,6 +73,49 @@ public class VendasDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+    
+    //Método que filtra vendas por datas
+    public List<Vendas> listarVendasPorPeriodo(LocalDate data_inicio, LocalDate data_fim) {
+        try {
+
+            // primeiro passo: Criar a lista
+            List<Vendas> lista = new ArrayList<>();
+
+            // segundo passo: Criar o comando SQL, organizar e executar o comando
+            String sql = "select v.id, v.data_venda, c.nome, v.total_venda, v.observacoes from "
+                        + "tb_vendas as v inner join tb_clientes as c on (v.cliente_id = c.id)"
+                        + "where v.data_venda between ? and ?";
+            
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, data_inicio.toString());
+            stmt.setString(2, data_fim.toString());
+            
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Vendas obj = new Vendas();
+                Clientes c = new Clientes();
+                
+                obj.setId(rs.getInt("v.id"));
+                obj.setData_venda(rs.getString("v.data_venda"));
+                c.setNome(rs.getString("c.nome"));
+                obj.setTotal_venda(rs.getDouble("v.total_venda"));
+                obj.setObs(rs.getString("v.observacoes"));
+                
+                obj.setCliente(c);
+                
+                lista.add(obj);
+
+            }
+
+            return lista;
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(null, "Erro:" + erro);
+            return null;
         }
     }
 }
