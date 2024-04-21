@@ -7,6 +7,7 @@ package br.com.projeto.view;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -55,8 +56,8 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        menuposicao = new javax.swing.JMenuItem();
+        menucontrolevendas = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -85,7 +86,7 @@ public class FrmMenu extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblusuario)
-                .addContainerGap(789, Short.MAX_VALUE))
+                .addContainerGap(716, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,11 +156,11 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuItem6.setText("Abrir PDV");
         jMenu4.add(jMenuItem6);
 
-        jMenuItem7.setText("Posição do Dia");
-        jMenu4.add(jMenuItem7);
+        menuposicao.setText("Posição do Dia");
+        jMenu4.add(menuposicao);
 
-        jMenuItem8.setText("Histórico de Vendas");
-        jMenu4.add(jMenuItem8);
+        menucontrolevendas.setText("Controle de vendas");
+        jMenu4.add(menucontrolevendas);
 
         jMenuBar1.add(jMenu4);
 
@@ -167,12 +168,22 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenu5.setText("Configurações");
 
         jMenuItem9.setText("Trocar de Usuário");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem9);
 
         jMenuBar1.add(jMenu5);
 
         jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sair.png"))); // NOI18N
         jMenu7.setText("Sair");
+        jMenu7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu7MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
@@ -197,6 +208,26 @@ public class FrmMenu extends javax.swing.JFrame {
         lblusuario.setText(usuarioLogado);
         //this.setVisible(true);
     }//GEN-LAST:event_formWindowActivated
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        //Efetuar logout
+        FrmLogin telalogin = new FrmLogin();
+        this.dispose();
+        telalogin.setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
+        
+        int op;
+        
+        op = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja sair?");
+        
+        if(op == 0) {
+            System.exit(0);
+        }
+        
+    }//GEN-LAST:event_jMenu7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -249,11 +280,11 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblusuario;
+    public javax.swing.JMenuItem menucontrolevendas;
+    public javax.swing.JMenuItem menuposicao;
     private javax.swing.JDesktopPane painel_desktop;
     // End of variables declaration//GEN-END:variables
 }
