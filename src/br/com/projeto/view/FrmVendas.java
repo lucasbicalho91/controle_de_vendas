@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmVendas extends javax.swing.JFrame {
     
+    Clientes obj = new Clientes();
+    
     double total, preco, subtotal;
     int qtd;
     
@@ -530,6 +532,7 @@ public class FrmVendas extends javax.swing.JFrame {
         //botão pagamento
         FrmPagamentos telap = new FrmPagamentos();
         telap.txttotal.setText(String.valueOf(total));
+        telap.cliente = obj;
         telap.setVisible(true);
         this.dispose();
         
@@ -548,11 +551,10 @@ public class FrmVendas extends javax.swing.JFrame {
         //busca cliente por CPF
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             
-            Clientes objs = new Clientes();
             ClientesDAO dao = new ClientesDAO();
             
-            objs = dao.buscaPorCpf(txtcpf.getText());
-            txtnome.setText(objs.getNome());
+            obj = dao.buscaPorCpf(txtcpf.getText());
+            txtnome.setText(obj.getNome());
             
         }
         
