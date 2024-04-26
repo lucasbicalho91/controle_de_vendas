@@ -269,6 +269,21 @@ public class ProdutosDAO {
             JOptionPane.showMessageDialog(null, "Erro:" + erro);
         }
     }
+    
+        public void adicionarEstoque(int id, int qtd_nova) {
+        try {
+
+            String sql = "update tb_produtos set qtd_estoque = ? where id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, qtd_nova);
+                stmt.setInt(2, id);
+                stmt.execute();
+            }
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro:" + erro);
+        }
+    }
 
     //Método que retorna o estoque atual
     public int retornaEstoqueAtual(int id) {
